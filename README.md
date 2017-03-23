@@ -2,9 +2,10 @@
 Mock API Server using flask
 
 
-##How to Deploy ?
 
-Use Docker	`> docker-compose -f example.yml up -d `
+## How to Deploy ?
+
+Of course use Docker  `> docker-compose -f example.yml up -d `
 
 
 ## Config
@@ -12,16 +13,16 @@ Use Docker	`> docker-compose -f example.yml up -d `
 
 -  Edit `routes.cfg` 
 
- like
+ 	like
   
- ```
-	[routes]
-	/ping = ping.json
-	/users/<user_id> = example_user.json
+ 	```
+		[routes]
+		/ping = ping.json
+		/users/<user_id> = example_user.json
 
- ```
+ 	```
  
- The first param is the API path , and the target is mocked json .     
+ 	the first param is the API path , and the second  is mocked json file path  .     
 
 - Put your mock json data  in `json_files` directory.
 
