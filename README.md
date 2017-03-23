@@ -65,14 +65,14 @@ server {
   
  	```
 		[routes]
-		/ping = ping.json
-		/users/<user_id> = example_user.json
+		/ping = json_files/ping.json
+		/users/<user_id> = json_files/example_user.json
 
  	```
  	
  	the first param is the API path , and the second  is mocked json file path  .     
 
-- Put your mock json data  in `_static/json_files` directory.
+- Put your mock json data  in `_static` directory.
 
 
 - Enjoy it 
