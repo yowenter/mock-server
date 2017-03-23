@@ -28,7 +28,6 @@ else:
     )
 
 
-
 def gen_endpoint_func(json_file_name):
     def f():
         json_file = os.path.join(JSON_FILES_DIR, json_file_name)
@@ -39,10 +38,13 @@ def gen_endpoint_func(json_file_name):
     return f
 
 
+def gen_endpoint(route_path):
+    return '_'.join(route_path.split('/'))
+
+
 def register_routes():
     for route in routes:
-        app.add_url_rule(route[0], view_func=gen_endpoint_func(route[1]),
-                                 methods=['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'])
+        app.add_url_rule(route[0], endpoint=gen_endpoint(route[0]), view_func=gen_endpoint_func(route[1]),
+                         methods=['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'])
 
     return app
-
