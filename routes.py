@@ -2,6 +2,7 @@
 
 
 import os
+import ConfigParser
 
 from app import app
 import json
@@ -10,14 +11,22 @@ from flask import jsonify
 
 JSON_FILES_DIR = os.path.join(os.path.dirname(__file__), 'json_files')
 
-# Edit routes below, to mock your api json
-# first param is the api path, the second is the json file path
-# you should put the json file in the json_files directory
+if os.path.exists(os.path.join(os.path.dirname(__file__), 'routes.cfg')):
+    print "READING ROUTES CONFIG "
+    config = ConfigParser.ConfigParser()
+    config.read('routes.cfg')
+    _routes = config._sections.get("routes").items()
+    routes = set()
+    for _r in _routes:
+        if not str(_r[0]).startswith('__'):
+            routes.add(_r)
 
-routes = (
-    ('/ping', 'ping.json'),
+    print "ROUTES :", routes
+else:
+    routes = (
+        ('/ping', 'ping.json'),
+    )
 
-)
 
 
 def gen_endpoint_func(json_file_name):
