@@ -23,7 +23,10 @@ COPY . /usr/src/app
 
 EXPOSE 5000
 
-CMD ["sh","run.sh"]
+
+ CMD ["gunicorn","-k","gevent","--max-requests","50000", \
+  	"--max-requests-jitter","50000","--access-logfile","-", "--error-logfile","-","-b", \
+ 	"0.0.0.0:5000","main:app"]
 
 
 	

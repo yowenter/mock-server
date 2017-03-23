@@ -66,4 +66,3 @@ def register_routes():
             traceback.print_exc(file=sys.stdout)
 
     return app
-
