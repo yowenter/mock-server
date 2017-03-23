@@ -34,7 +34,8 @@ class ConfigReloaderLoop(ReloaderLoop):
 
     def _reload_gunicorn(self):
         try:
-            os.system("kill -HUP 1")
+            os.system("ps aux |grep gunicorn")
+
         except Exception as e:
             print "reload gunicorn failure", str(e)
 
