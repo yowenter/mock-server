@@ -6,6 +6,7 @@ import json
 import logging
 import sys
 import traceback
+from flask import Blueprint
 
 import os
 import flask
@@ -21,13 +22,23 @@ assert os.path.exists(ROUTES_CONFIG), "Routes config file `routes.cfg` not exist
 
 routes_config = ConfigParser.ConfigParser()
 routes_config.read(ROUTES_CONFIG)
+
+api_config = routes_config._sections.get("api")
+api_prefix = api_config.get('prefix')
+
+if api_prefix:
+    LOG.info("Register Mock API using prefix `%s` ", api_prefix)
+    mock_blueprint = Blueprint("mock_api", __name__, url_prefix=api_prefix)
+else:
+    mock_blueprint = Blueprint("mock_api", __name__)
+
 routes_tuples = routes_config._sections.get("routes").items()
 routes = set()
 for r in routes_tuples:
     if not str(r[0]).startswith('__'):
         routes.add(r)
 
-LOG.info("Loaded routes : \n%s\n", "\n".join([str(r) for r in routes]))
+LOG.info("Register routes : \n%s\n", "\n".join([str(r) for r in routes]))
 
 
 def gen_endpoint_func(json_file_name):
@@ -49,13 +60,16 @@ def gen_endpoint(route_path):
     return '_'.join(route_path.split('/'))
 
 
-def register_routes(app):
+def register_mock_blueprint(app):
     for route in routes:
         try:
-            app.add_url_rule(route[0], endpoint=gen_endpoint(route[0]), view_func=gen_endpoint_func(route[1]),
-                             methods=['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'])
+            mock_blueprint.add_url_rule(route[0], endpoint=gen_endpoint(route[0]),
+                                        view_func=gen_endpoint_func(route[1]),
+                                        methods=['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'])
         except Exception as e:
             LOG.warning("Add route failure %s", str(e))
             traceback.print_exc(file=sys.stdout)
+
+    app.register_blueprint(mock_blueprint)
 
     return app

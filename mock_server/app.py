@@ -30,7 +30,7 @@ def config_extensions(app):
 
 
 def config_routes(app):
-    routes.register_routes(app)
+    routes.register_mock_blueprint(app)
 
 
 def create_app():
