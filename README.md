@@ -8,6 +8,8 @@ Mock API Server using flask
 [routes]
 
 /ping = ping.json
+/user/<user_id> = example_user.json
+
 
 ```
 
