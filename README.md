@@ -1,5 +1,6 @@
-# mock-server
-Mock API Server using flask
+# Mock Server for poor man 
+
+Mock API Server Using Flask
 
 
 
@@ -55,10 +56,10 @@ server {
 
 
 
-## Let's Mock Data 
+## Let's Mock Data !
 
 
--  Edit `routes.cfg` 
+-  Edit `_static/routes.cfg` 
 
  	like
   
@@ -68,10 +69,10 @@ server {
 		/users/<user_id> = example_user.json
 
  	```
- 
+ 	
  	the first param is the API path , and the second  is mocked json file path  .     
 
-- Put your mock json data  in `json_files` directory.
+- Put your mock json data  in `_static/json_files` directory.
 
 
 - Enjoy it 

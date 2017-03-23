@@ -1,9 +1,8 @@
 version: '2'
 services:
   mock_api:
-    image: daocloud.io/airywenter/mock-server:v0.1
-    - /root/mock_api/routes.cfg:/usr/src/app/routes.cfg:ro
-    - /root/mock_api/json_files:/usr/src/app/json_files
+    image: daocloud.io/airywenter/mock-server:latest
+    - /root/mock_api/static:/usr/src/app/_static
 
 
 
