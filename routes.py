@@ -2,6 +2,9 @@
 
 
 import os
+import sys
+import traceback
+
 import ConfigParser
 
 from app import app
@@ -29,7 +32,7 @@ else:
 
 
 def gen_endpoint_func(json_file_name):
-    def f():
+    def f(*args, **kwargs):
         json_file = os.path.join(JSON_FILES_DIR, json_file_name)
         assert os.path.exists(json_file), "json_file `%s` not exists" % json_file
         with open(os.path.join(JSON_FILES_DIR, json_file_name), 'r') as f:
@@ -44,7 +47,12 @@ def gen_endpoint(route_path):
 
 def register_routes():
     for route in routes:
-        app.add_url_rule(route[0], endpoint=gen_endpoint(route[0]), view_func=gen_endpoint_func(route[1]),
-                         methods=['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'])
+        try:
+
+            app.add_url_rule(route[0], endpoint=gen_endpoint(route[0]), view_func=gen_endpoint_func(route[1]),
+                             methods=['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'])
+        except Exception as e:
+            print "Add route failure %s" % str(e)
+            traceback.print_exc(file=sys.stdout)
 
     return app

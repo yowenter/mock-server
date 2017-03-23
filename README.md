@@ -13,3 +13,5 @@ Mock API Server using flask
 
 ## Put your mock json data in json_files directory 
 
+
+## You can find  example  nginx.conf in project 
