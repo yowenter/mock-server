@@ -2,14 +2,16 @@
 Mock API Server using flask
 
 
-## edit routes variable in routes.py
+## Edit routes variable in routes.py
 
-`
-routes = (
+```
+    routes = (
 
-  ('/ping','ping.json'),
-  ('/hello','hello.json'),
-  
-)`
+      ('/ping','ping.json'),
+      ('/hello','hello.json'),
 
-you should put your mock json data in json_files directory .
+    )
+```
+
+## Put your mock json api data in json_files directory 
+
