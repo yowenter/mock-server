@@ -21,12 +21,12 @@ RUN pip install  -r /usr/src/app/requirements.txt
 COPY . /usr/src/app
 
 
-EXPOSE 80
+EXPOSE 5000
 
 
 CMD ["gunicorn","-k","gevent","--max-requests","50000", \
 	"--max-requests-jitter","50000","--access-logfile","-", "--error-logfile","-","-b", \
-	"0.0.0.0:80","main:create_app"]
+	"0.0.0.0:5000","main:create_app"]
 
 
 	
