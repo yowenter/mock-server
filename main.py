@@ -1,4 +1,3 @@
-
 from app import app
 
 
@@ -7,7 +6,7 @@ def index():
     return "Hello World!"
 
 
-def create_app():
+def create_app(*args, **kwargs):
     from routes import register_routes
     application = register_routes(app)
     return application
