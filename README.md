@@ -8,6 +8,53 @@ Mock API Server using flask
 Of course use Docker  `> docker-compose -f example.yml up -d `
 
 
+
+## Integrate with Nginx
+
+
+To integrate with nginx, you can add an upstream in nginx.conf . 
+The client can add  header  `X-Server-Select`, the nginx will map to mock_server .
+ 
+
+```
+
+upstream mock_api {
+
+    server 192.168.1.11:5001;
+    
+}
+
+
+upstream api {
+
+    server 192.168.1.11:5000;
+    
+}
+
+
+
+map $http_x_server_select $api_pool {
+
+     default "api";
+     mock "mock_api";
+}
+
+
+
+server {
+
+    listen 80 ;
+    server_name _;
+    location / {
+        proxy_pass http://api_pool;
+    }
+}
+
+
+```  
+
+
+
 ## Config
 
 
@@ -28,6 +75,7 @@ Of course use Docker  `> docker-compose -f example.yml up -d `
 
 
 - Enjoy it 
+
 
 
 
