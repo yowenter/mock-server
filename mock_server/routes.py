@@ -24,7 +24,7 @@ routes_config = ConfigParser.ConfigParser()
 routes_config.read(ROUTES_CONFIG)
 
 api_config = routes_config._sections.get("api")
-api_prefix = api_config.get('prefix')
+api_prefix = api_config.get('prefix') if api_config else None
 
 if api_prefix:
     LOG.info("Register Mock API using prefix `%s` ", api_prefix)
