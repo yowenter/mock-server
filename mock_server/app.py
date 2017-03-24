@@ -31,6 +31,7 @@ def config_extensions(app):
 
 def config_routes(app):
     routes.register_mock_blueprint(app)
+    app.register_blueprint(routes.file_blueprint)
 
 
 def create_app():

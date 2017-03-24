@@ -6,13 +6,17 @@ import json
 import logging
 import sys
 import traceback
-from flask import Blueprint
+from flask import Blueprint, abort, send_from_directory
+import re
 
 import os
 import flask
 from flask import jsonify
 
 LOG = logging.getLogger(__name__)
+
+file_pattern = re.compile("[^.]+\.[^.]+")
+is_file = lambda r: file_pattern.match(r)
 
 STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "_static")
 
@@ -32,11 +36,16 @@ if api_prefix:
 else:
     mock_blueprint = Blueprint("mock_api", __name__)
 
+file_blueprint = Blueprint("file_handler", __name__)
+
 routes_tuples = routes_config._sections.get("routes").items()
 routes = set()
 for r in routes_tuples:
     if not str(r[0]).startswith('__'):
-        routes.add(r)
+        if is_file(r[0]):
+            LOG.warn("You can just put your file in _static directory")
+        else:
+            routes.add(r)
 
 LOG.info("Register routes : \n%s\n", "\n".join([str(r) for r in routes]))
 
@@ -73,3 +82,11 @@ def register_mock_blueprint(app):
     app.register_blueprint(mock_blueprint)
 
     return app
+
+
+@file_blueprint.route("/<path:path>")
+def file_handler(path):
+    if os.path.exists(os.path.join(STATIC_DIR, path)):
+        return send_from_directory(STATIC_DIR, path)
+    else:
+        abort(404)
