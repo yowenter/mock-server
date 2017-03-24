@@ -13,7 +13,8 @@ Of course use Docker
   
 The client can add  header  `X-Server-Select`, the nginx will map to mock_server .
 You can find an example  `nginx.conf`  in the project root directory.
- 
+
+![mock server archi](_static/mock_server_archi.png?raw=true )
 
 ```
 
